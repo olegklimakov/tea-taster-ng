@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'tea-taster',
+  appId: 'com.kensodemann.teataster',
+  appName: 'Tea Taster',
   webDir: 'www',
   bundledWebRuntime: false,
 };
