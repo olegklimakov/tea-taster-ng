@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService, SessionVaultService } from '@app/core';
 import { Tea } from '@app/models';
+import { NavController } from '@ionic/angular';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-tea',
@@ -70,9 +73,25 @@ export class TeaPage implements OnInit {
     return this.toMatrix(this.teaData);
   }
 
-  constructor() {}
+  constructor(
+    private auth: AuthenticationService,
+    private nav: NavController,
+    private sessionVault: SessionVaultService
+  ) {}
 
   ngOnInit() {}
+
+  logout() {
+    this.auth
+      .logout()
+      .pipe(
+        tap(async () => {
+          await this.sessionVault.clear();
+          this.nav.navigateRoot(['/', 'login']);
+        })
+      )
+      .subscribe();
+  }
 
   private toMatrix(tea: Array<Tea>): Array<Array<Tea>> {
     const matrix: Array<Array<Tea>> = [];
