@@ -1,8 +1,12 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AuthenticationService, SessionVaultService } from '@app/core';
-import { createAuthenticationServiceMock, createSessionVaultServiceMock } from '@app/core/testing';
+import { AuthenticationService, SessionVaultService, TeaService } from '@app/core';
+import {
+  createAuthenticationServiceMock,
+  createSessionVaultServiceMock,
+  createTeaServiceMock,
+} from '@app/core/testing';
 import { Tea } from '@app/models';
 import { IonicModule, NavController } from '@ionic/angular';
 import { createNavControllerMock } from '@test/mocks';
@@ -16,17 +20,20 @@ describe('TeaPage', () => {
   let teas: Array<Tea>;
 
   beforeEach(waitForAsync(() => {
+    initializeTestData();
     TestBed.configureTestingModule({
       declarations: [TeaPage],
       imports: [IonicModule],
       providers: [
         { provide: AuthenticationService, useFactory: createAuthenticationServiceMock },
         { provide: SessionVaultService, useFactory: createSessionVaultServiceMock },
+        { provide: TeaService, useFactory: createTeaServiceMock },
         { provide: NavController, useFactory: createNavControllerMock },
       ],
     }).compileComponents();
 
-    initializeTestData();
+    const tea = TestBed.inject(TeaService);
+    (tea.getAll as jasmine.Spy).and.returnValue(of(teas));
     fixture = TestBed.createComponent(TeaPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -43,7 +50,7 @@ describe('TeaPage', () => {
     expect(titles[1].nativeElement.textContent.trim()).toBe('Teas');
   });
 
-  describe('a grid of seven teas', () => {
+  describe('a grid of six teas', () => {
     let grid: DebugElement;
     beforeEach(() => {
       grid = fixture.debugElement.query(By.css('ion-grid'));
@@ -63,12 +70,12 @@ describe('TeaPage', () => {
     it('has three columns in the second row', () => {
       const rows = grid.queryAll(By.css('ion-row'));
       const cols = rows[1].queryAll(By.css('ion-col'));
-      expect(cols.length).toBe(3);
+      expect(cols.length).toBe(2);
     });
 
     it('binds the card title to the tea name', () => {
       const cols = grid.queryAll(By.css('ion-col'));
-      expect(cols.length).toBe(7);
+      expect(cols.length).toBe(6);
       cols.forEach((col, idx) => {
         const title = col.query(By.css('ion-card-title'));
         expect(title.nativeElement.textContent.trim()).toBe(teas[idx].name);
@@ -77,7 +84,7 @@ describe('TeaPage', () => {
 
     it('binds the card content to the tea description', () => {
       const cols = grid.queryAll(By.css('ion-col'));
-      expect(cols.length).toBe(7);
+      expect(cols.length).toBe(6);
       cols.forEach((col, idx) => {
         const title = col.query(By.css('ion-card-content'));
         expect(title.nativeElement.textContent.trim()).toBe(teas[idx].description);
@@ -140,14 +147,6 @@ describe('TeaPage', () => {
         description:
           'A fully oxidized tea, black teas have a dark color and a full robust and pronounced flavor. Black teas tend ' +
           'to have a higher caffeine content than other teas.',
-      },
-      {
-        id: 3,
-        name: 'Herbal',
-        image: 'assets/img/herbal.jpg',
-        description:
-          'Herbal infusions are not actually "tea" but are more accurately characterized as infused beverages ' +
-          'consisting of various dried herbs, spices, and fruits.',
       },
       {
         id: 4,
