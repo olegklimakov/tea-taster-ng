@@ -35,6 +35,10 @@ export class TeaPage implements OnInit {
       .subscribe();
   }
 
+  showDetailsPage(id: number) {
+    this.nav.navigateForward(['tea-details', id]);
+  }
+
   private toMatrix(tea: Array<Tea>): Array<Array<Tea>> {
     const matrix: Array<Array<Tea>> = [];
     let row: Tea[] = [];

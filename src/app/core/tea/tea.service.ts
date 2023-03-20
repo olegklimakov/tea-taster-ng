@@ -20,6 +20,13 @@ export class TeaService {
       .pipe(map((teas) => teas.map((t) => this.convert(t))));
   }
 
+  get(id: number): Observable<Tea> {
+    // This is the part you will fill in once the tests are in place
+    return this.http
+      .get<TeaResponse>(`${environment.dataService}/tea-categories/${id}`)
+      .pipe(map((tea) => this.convert(tea)));
+  }
+
   private convert(tea: TeaResponse): Tea {
     return { ...tea, image: `assets/img/${this.images[tea.id - 1]}.jpg` };
   }
