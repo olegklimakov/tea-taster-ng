@@ -161,6 +161,7 @@ describe('TeaPage', () => {
         description:
           'Green teas have the oxidation process stopped very early on, leaving them with a very subtle flavor and ' +
           'complex undertones. These teas should be steeped at lower temperatures for shorter periods of time.',
+        rating: 3,
       },
       {
         id: 2,
@@ -169,6 +170,7 @@ describe('TeaPage', () => {
         description:
           'A fully oxidized tea, black teas have a dark color and a full robust and pronounced flavor. Black teas tend ' +
           'to have a higher caffeine content than other teas.',
+        rating: 2,
       },
       {
         id: 4,
@@ -177,6 +179,7 @@ describe('TeaPage', () => {
         description:
           'Oolong teas are partially oxidized, giving them a flavor that is not as robust as black teas but also ' +
           'not as subtle as green teas. Oolong teas often have a flowery fragrance.',
+        rating: 4,
       },
       {
         id: 5,
@@ -185,6 +188,7 @@ describe('TeaPage', () => {
         description:
           'From the Hunan and Sichuan provinces of China, dark teas are flavorful aged pro-biotic teas that steeps ' +
           'up very smooth with slightly sweet notes.',
+        rating: 2,
       },
       {
         id: 6,
@@ -192,6 +196,7 @@ describe('TeaPage', () => {
         image: 'assets/img/puer.jpg',
         description:
           'An aged black tea from china. Puer teas have a strong rich flavor that could be described as "woody" or "peaty."',
+        rating: 5,
       },
       {
         id: 7,
@@ -201,6 +206,7 @@ describe('TeaPage', () => {
           'White tea is produced using very young shoots with no oxidation process. White tea has an extremely ' +
           'delicate flavor that is sweet and fragrent. White tea should be steeped at lower temperatures for ' +
           'short periods of time.',
+        rating: 0,
       },
     ];
   };
