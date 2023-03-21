@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService, SessionVaultService } from '@app/core';
 import { NavController } from '@ionic/angular';
@@ -9,7 +9,7 @@ import { take, tap } from 'rxjs';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
   loginFailed: boolean = false;
 
   get emailError(): string {
@@ -33,8 +33,6 @@ export class LoginPage implements OnInit {
     private nav: NavController,
     private sessionVault: SessionVaultService
   ) {}
-
-  ngOnInit() {}
 
   signIn() {
     const controls = this.loginForm.controls;
