@@ -1,12 +1,8 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AuthenticationService, SessionVaultService, TeaService } from '@app/core';
-import {
-  createAuthenticationServiceMock,
-  createSessionVaultServiceMock,
-  createTeaServiceMock,
-} from '@app/core/testing';
+import { TeaService } from '@app/core';
+import { createTeaServiceMock } from '@app/core/testing';
 import { Tea } from '@app/models';
 import { IonicModule, NavController } from '@ionic/angular';
 import { createNavControllerMock } from '@test/mocks';
@@ -25,8 +21,6 @@ describe('TeaPage', () => {
       declarations: [TeaPage],
       imports: [IonicModule],
       providers: [
-        { provide: AuthenticationService, useFactory: createAuthenticationServiceMock },
-        { provide: SessionVaultService, useFactory: createSessionVaultServiceMock },
         { provide: TeaService, useFactory: createTeaServiceMock },
         { provide: NavController, useFactory: createNavControllerMock },
       ],
@@ -92,57 +86,25 @@ describe('TeaPage', () => {
     });
   });
 
-  describe('logout button', () => {
-    describe('on click', () => {
-      beforeEach(() => {
-        const auth = TestBed.inject(AuthenticationService);
-        (auth.logout as jasmine.Spy).and.returnValue(of(undefined));
-      });
-
-      it('calls the logout', () => {
-        const auth = TestBed.inject(AuthenticationService);
-        const button = fixture.debugElement.query(By.css('[data-testid="logout-button"]')).nativeElement;
-        click(button);
-        expect(auth.logout).toHaveBeenCalledTimes(1);
-      });
-
-      it('clears the session', () => {
-        const button = fixture.debugElement.query(By.css('[data-testid="logout-button"]')).nativeElement;
-        const sessionVault = TestBed.inject(SessionVaultService);
-        click(button);
-        expect(sessionVault.clear).toHaveBeenCalledTimes(1);
-      });
-
-      it('navigates to the login page', fakeAsync(() => {
-        const button = fixture.debugElement.query(By.css('[data-testid="logout-button"]')).nativeElement;
-        const nav = TestBed.inject(NavController);
-        click(button);
-        tick();
-        expect(nav.navigateRoot).toHaveBeenCalledTimes(1);
-        expect(nav.navigateRoot).toHaveBeenCalledWith(['/', 'login']);
-      }));
+  describe('show details page', () => {
+    let card: HTMLElement;
+    beforeEach(() => {
+      const grid = fixture.debugElement.query(By.css('ion-grid'));
+      const rows = grid.queryAll(By.css('ion-row'));
+      const cols = rows[0].queryAll(By.css('ion-col'));
+      card = cols[2].query(By.css('ion-card')).nativeElement;
     });
 
-    describe('show details page', () => {
-      let card: HTMLElement;
-      beforeEach(() => {
-        const grid = fixture.debugElement.query(By.css('ion-grid'));
-        const rows = grid.queryAll(By.css('ion-row'));
-        const cols = rows[0].queryAll(By.css('ion-col'));
-        card = cols[2].query(By.css('ion-card')).nativeElement;
-      });
+    it('navigates forward', () => {
+      const navController = TestBed.inject(NavController);
+      click(card);
+      expect(navController.navigateForward).toHaveBeenCalledTimes(1);
+    });
 
-      it('navigates forward', () => {
-        const navController = TestBed.inject(NavController);
-        click(card);
-        expect(navController.navigateForward).toHaveBeenCalledTimes(1);
-      });
-
-      it('passes the details page and the ID', () => {
-        const navController = TestBed.inject(NavController);
-        click(card);
-        expect(navController.navigateForward).toHaveBeenCalledWith(['tabs', 'tea', 'tea-details', teas[2].id]);
-      });
+    it('passes the details page and the ID', () => {
+      const navController = TestBed.inject(NavController);
+      click(card);
+      expect(navController.navigateForward).toHaveBeenCalledWith(['tabs', 'tea', 'tea-details', teas[2].id]);
     });
   });
 

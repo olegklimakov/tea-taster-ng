@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { AuthenticationService, SessionVaultService } from '@app/core';
+import { NavController } from '@ionic/angular';
+import { tap } from 'rxjs';
+import packageInfo from '../../../package.json';
 
 @Component({
   selector: 'app-about',
@@ -6,5 +10,31 @@ import { Component } from '@angular/core';
   styleUrls: ['./about.page.scss'],
 })
 export class AboutPage {
-  constructor() {}
+  author: string;
+  name: string;
+  description: string;
+  version: string;
+
+  constructor(
+    private auth: AuthenticationService,
+    private nav: NavController,
+    private sessionVault: SessionVaultService
+  ) {
+    this.author = packageInfo.author;
+    this.name = packageInfo.name;
+    this.description = packageInfo.description;
+    this.version = packageInfo.version;
+  }
+
+  logout() {
+    this.auth
+      .logout()
+      .pipe(
+        tap(async () => {
+          await this.sessionVault.clear();
+          this.nav.navigateRoot(['/', 'login']);
+        })
+      )
+      .subscribe();
+  }
 }
