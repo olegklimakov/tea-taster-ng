@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TastingNotesService } from '@app/core';
 import { TastingNote } from '@app/models';
-import { IonRouterOutlet, ModalController, ModalOptions } from '@ionic/angular';
+import { AlertController, IonList, IonRouterOutlet, ModalController, ModalOptions } from '@ionic/angular';
 import { BehaviorSubject, EMPTY, mergeMap, Observable, tap } from 'rxjs';
 import { TastingNoteEditorComponent } from './tasting-note-editor/tasting-note-editor.component';
 
@@ -12,9 +12,11 @@ import { TastingNoteEditorComponent } from './tasting-note-editor/tasting-note-e
 })
 export class TastingNotesPage implements OnInit {
   private refresh = new BehaviorSubject<void>(undefined);
+  @ViewChild(IonList, { static: true }) list: IonList | undefined;
   notes$: Observable<Array<TastingNote>> = EMPTY;
 
   constructor(
+    private alertController: AlertController,
     private modalController: ModalController,
     private routerOutlet: IonRouterOutlet,
     private tastingNotes: TastingNotesService
@@ -24,11 +26,17 @@ export class TastingNotesPage implements OnInit {
     this.notes$ = this.refresh.pipe(mergeMap(() => this.tastingNotes.getAll()));
   }
 
-  deleteNote(note: TastingNote): void {
-    this.tastingNotes
-      .delete(note.id as number)
-      .pipe(tap(() => this.refresh.next()))
-      .subscribe();
+  async deleteNote(note: TastingNote): Promise<void> {
+    if (await this.confirmDelete()) {
+      this.tastingNotes
+        .delete(note.id as number)
+        .pipe(tap(() => this.refresh.next()))
+        .subscribe();
+    } else {
+      if (this.list?.closeSlidingItems) {
+        this.list.closeSlidingItems();
+      }
+    }
   }
 
   newNote(): Promise<void> {
@@ -37,6 +45,21 @@ export class TastingNotesPage implements OnInit {
 
   updateNote(note: TastingNote): Promise<void> {
     return this.displayEditor(note);
+  }
+
+  private async confirmDelete(): Promise<boolean> {
+    const alert = await this.alertController.create({
+      header: 'Remove Note',
+      subHeader: 'This action cannot be undone!',
+      message: 'Are you sure you want to remove this note?',
+      buttons: [
+        { text: 'Yes', role: 'yes' },
+        { text: 'No', role: 'no' },
+      ],
+    });
+    await alert.present();
+    const { role } = await alert.onDidDismiss();
+    return role === 'yes';
   }
 
   private async displayEditor(note?: TastingNote): Promise<void> {
