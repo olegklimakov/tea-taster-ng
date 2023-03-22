@@ -1,7 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { TastingNotesService } from '@app/core';
 import { TastingNote } from '@app/models';
-import { AlertController, IonList, IonRouterOutlet, ModalController, ModalOptions } from '@ionic/angular';
+import { AlertController, IonicModule, IonList, IonRouterOutlet, ModalController, ModalOptions } from '@ionic/angular';
 import { BehaviorSubject, EMPTY, mergeMap, Observable, tap } from 'rxjs';
 import { TastingNoteEditorComponent } from './tasting-note-editor/tasting-note-editor.component';
 
@@ -9,6 +11,8 @@ import { TastingNoteEditorComponent } from './tasting-note-editor/tasting-note-e
   selector: 'app-tasting-notes',
   templateUrl: './tasting-notes.page.html',
   styleUrls: ['./tasting-notes.page.scss'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, IonicModule, TastingNoteEditorComponent],
 })
 export class TastingNotesPage implements OnInit {
   private refresh = new BehaviorSubject<void>(undefined);

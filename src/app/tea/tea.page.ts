@@ -1,13 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { TeaService } from '@app/core';
 import { Tea } from '@app/models';
-import { NavController } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { map, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-tea',
   templateUrl: './tea.page.html',
   styleUrls: ['./tea.page.scss'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, IonicModule],
 })
 export class TeaPage implements OnInit {
   teaMatrix$: Observable<Array<Array<Tea>>> = of([]);

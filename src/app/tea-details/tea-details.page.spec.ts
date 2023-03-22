@@ -1,12 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { TeaService } from '@app/core';
 import { createTeaServiceMock } from '@app/core/testing';
 import { Tea } from '@app/models';
-import { SharedModule } from '@app/shared';
-import { IonicModule } from '@ionic/angular';
 import { createActivatedRouteMock } from '@test/mocks';
 import { of } from 'rxjs';
 
@@ -18,13 +15,11 @@ describe('TeaDetailsPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TeaDetailsPage],
-      imports: [FormsModule, IonicModule, SharedModule],
-      providers: [
-        { provide: ActivatedRoute, useFactory: createActivatedRouteMock },
-        { provide: TeaService, useFactory: createTeaServiceMock },
-      ],
-    }).compileComponents();
+      imports: [TeaDetailsPage],
+    })
+      .overrideProvider(ActivatedRoute, { useFactory: createActivatedRouteMock })
+      .overrideProvider(TeaService, { useFactory: createTeaServiceMock })
+      .compileComponents();
 
     fixture = TestBed.createComponent(TeaDetailsPage);
     component = fixture.componentInstance;

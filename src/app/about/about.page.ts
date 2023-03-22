@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthenticationService, SessionVaultService } from '@app/core';
-import { NavController } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { tap } from 'rxjs';
 import packageInfo from '../../../package.json';
 
@@ -8,6 +8,8 @@ import packageInfo from '../../../package.json';
   selector: 'app-about',
   templateUrl: './about.page.html',
   styleUrls: ['./about.page.scss'],
+  standalone: true,
+  imports: [IonicModule],
 })
 export class AboutPage {
   author: string;

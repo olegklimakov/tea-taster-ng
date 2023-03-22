@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { TastingNotesService, TeaService } from '@app/core';
 import { createTastingNotesServiceMock, createTeaServiceMock } from '@app/core/testing';
-import { SharedModule } from '@app/shared';
 import { Share } from '@capacitor/share';
 import { IonicModule, ModalController, Platform } from '@ionic/angular';
 import { createOverlayControllerMock, createPlatformMock } from '@test/mocks';
@@ -14,6 +12,8 @@ import { TastingNoteEditorComponent } from './tasting-note-editor.component';
 describe('TastingNoteEditorComponent', () => {
   let component: TastingNoteEditorComponent;
   let fixture: ComponentFixture<TastingNoteEditorComponent>;
+  let platform: Platform;
+  let modalController: ModalController;
 
   const click = (button: HTMLElement) => {
     const event = new Event('click');
@@ -22,16 +22,16 @@ describe('TastingNoteEditorComponent', () => {
   };
 
   beforeEach(waitForAsync(() => {
+    modalController = createOverlayControllerMock('ModalController');
+    platform = createPlatformMock();
     TestBed.configureTestingModule({
-      declarations: [TastingNoteEditorComponent],
-      imports: [IonicModule, ReactiveFormsModule, SharedModule],
-      providers: [
-        { provide: ModalController, useFactory: () => createOverlayControllerMock('ModalController') },
-        { provide: Platform, useFactory: createPlatformMock },
-        { provide: TastingNotesService, useFactory: createTastingNotesServiceMock },
-        { provide: TeaService, useFactory: createTeaServiceMock },
-      ],
-    }).compileComponents();
+      imports: [TastingNoteEditorComponent],
+    })
+      .overrideProvider(TastingNotesService, { useFactory: createTastingNotesServiceMock })
+      .overrideProvider(TeaService, { useFactory: createTeaServiceMock })
+      .overrideProvider(ModalController, { useValue: modalController })
+      .overrideProvider(Platform, { useValue: platform })
+      .compileComponents();
 
     fixture = TestBed.createComponent(TastingNoteEditorComponent);
     component = fixture.componentInstance;
@@ -166,7 +166,6 @@ describe('TastingNoteEditorComponent', () => {
 
       it('dismisses the modal', () => {
         const btn = fixture.debugElement.query(By.css('[data-testid="save-button"]'));
-        const modalController = TestBed.inject(ModalController);
         click(btn.nativeElement);
         expect(modalController.dismiss).toHaveBeenCalledTimes(1);
       });
@@ -207,7 +206,6 @@ describe('TastingNoteEditorComponent', () => {
 
       it('dismisses the modal', () => {
         const btn = fixture.debugElement.query(By.css('[data-testid="save-button"]'));
-        const modalController = TestBed.inject(ModalController);
         click(btn.nativeElement);
         expect(modalController.dismiss).toHaveBeenCalledTimes(1);
       });
@@ -221,7 +219,6 @@ describe('TastingNoteEditorComponent', () => {
 
     it('dismisses the modal', () => {
       const btn = fixture.debugElement.query(By.css('[data-testid="cancel-button"]'));
-      const modalController = TestBed.inject(ModalController);
       click(btn.nativeElement);
       expect(modalController.dismiss).toHaveBeenCalledTimes(1);
     });
@@ -230,7 +227,6 @@ describe('TastingNoteEditorComponent', () => {
   describe('share', () => {
     describe('in a web context', () => {
       beforeEach(() => {
-        const platform = TestBed.inject(Platform);
         (platform.is as any).withArgs('hybrid').and.returnValue(false);
         fixture.detectChanges();
       });
@@ -242,7 +238,6 @@ describe('TastingNoteEditorComponent', () => {
 
     describe('in a mobile context', () => {
       beforeEach(() => {
-        const platform = TestBed.inject(Platform);
         (platform.is as any).withArgs('hybrid').and.returnValue(true);
         fixture.detectChanges();
       });

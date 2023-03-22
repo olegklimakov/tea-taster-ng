@@ -1,15 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TastingNotesService, TeaService } from '@app/core';
 import { TastingNote, Tea } from '@app/models';
+import { RatingComponent } from '@app/shared';
 import { Share } from '@capacitor/share';
-import { ModalController, Platform } from '@ionic/angular';
+import { IonicModule, ModalController, Platform } from '@ionic/angular';
 import { Observable, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-tasting-note-editor',
   templateUrl: './tasting-note-editor.component.html',
   styleUrls: ['./tasting-note-editor.component.scss'],
+  standalone: true,
+  imports: [CommonModule, IonicModule, RatingComponent, ReactiveFormsModule],
 })
 export class TastingNoteEditorComponent implements OnInit {
   @Input()
@@ -26,6 +30,7 @@ export class TastingNoteEditorComponent implements OnInit {
   buttonLabel: string = '';
   title: string = '';
   teaCategories$: Observable<Array<Tea>> = of([]);
+  mc = inject(ModalController);
 
   get sharingIsAvailable(): boolean {
     return this.platform.is('hybrid');

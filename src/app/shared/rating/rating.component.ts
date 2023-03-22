@@ -1,10 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component, forwardRef, HostBinding, Input } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-rating',
   templateUrl: './rating.component.html',
   styleUrls: ['./rating.component.scss'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, IonicModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

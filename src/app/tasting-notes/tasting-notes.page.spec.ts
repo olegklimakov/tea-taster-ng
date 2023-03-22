@@ -7,7 +7,6 @@ import { AlertController, IonicModule, IonRouterOutlet, ModalController } from '
 import { createOverlayControllerMock, createOverlayElementMock } from '@test/mocks';
 import { of } from 'rxjs';
 import { TastingNoteEditorComponent } from './tasting-note-editor/tasting-note-editor.component';
-import { TastingNoteEditorModule } from './tasting-note-editor/tasting-note-editor.module';
 import { TastingNotesPage } from './tasting-notes.page';
 
 describe('TastingNotesPage', () => {
@@ -15,6 +14,7 @@ describe('TastingNotesPage', () => {
   let fixture: ComponentFixture<TastingNotesPage>;
   let alert: HTMLIonAlertElement;
   let modal: HTMLIonModalElement;
+  let modalController: ModalController;
   let testData: Array<TastingNote>;
 
   const mockRouterOutlet = {
@@ -25,16 +25,15 @@ describe('TastingNotesPage', () => {
     initializeTestData();
     alert = createOverlayElementMock('Alert');
     modal = createOverlayElementMock('Modal');
+    modalController = createOverlayControllerMock('ModalController', modal);
     TestBed.configureTestingModule({
-      declarations: [TastingNotesPage],
-      imports: [IonicModule, TastingNoteEditorModule],
-      providers: [
-        { provide: AlertController, useFactory: () => createOverlayControllerMock('AlertController', alert) },
-        { provide: ModalController, useFactory: () => createOverlayControllerMock('ModalController', modal) },
-        { provide: IonRouterOutlet, useValue: mockRouterOutlet },
-        { provide: TastingNotesService, useFactory: createTastingNotesServiceMock },
-      ],
-    }).compileComponents();
+      imports: [TastingNotesPage],
+    })
+      .overrideProvider(AlertController, { useFactory: () => createOverlayControllerMock('AlertController', alert) })
+      .overrideProvider(ModalController, { useValue: modalController })
+      .overrideProvider(IonRouterOutlet, { useValue: mockRouterOutlet })
+      .overrideProvider(TastingNotesService, { useFactory: createTastingNotesServiceMock })
+      .compileComponents();
 
     const tastingNotes = TestBed.inject(TastingNotesService);
     (tastingNotes.getAll as jasmine.Spy).and.returnValue(of(testData));
@@ -60,7 +59,6 @@ describe('TastingNotesPage', () => {
     });
 
     it('creates the editor modal', () => {
-      const modalController = TestBed.inject(ModalController);
       const button = fixture.debugElement.query(By.css('[data-testid="add-new-button"]')).nativeElement;
       click(button);
       expect(modalController.create).toHaveBeenCalledTimes(1);
@@ -85,7 +83,6 @@ describe('TastingNotesPage', () => {
     });
 
     it('creates the editor modal', () => {
-      const modalController = TestBed.inject(ModalController);
       const item = fixture.debugElement.query(By.css('ion-item')).nativeElement;
       click(item);
       expect(modalController.create).toHaveBeenCalledTimes(1);
