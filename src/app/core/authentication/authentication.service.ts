@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, isDevMode } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { AuthConnect, AuthResult, CognitoProvider, ProviderOptions } from '@ionic-enterprise/auth';
@@ -18,7 +18,11 @@ export class AuthenticationService {
 
   constructor(private ngZone: NgZone, private platform: Platform, private sessionVault: SessionVaultService) {
     this.isNative = platform.is('hybrid');
-    const url = this.isNative ? 'msauth://auth-action-complete' : 'http://localhost:8100/auth-action-complete';
+    const url = this.isNative
+      ? 'msauth://auth-action-complete'
+      : isDevMode()
+      ? 'http://localhost:8100/auth-action-complete'
+      : 'https://tea-taster-training.web.app/auth-action-complete';
 
     this.authOptions = {
       clientId: '64p9c53l5thd5dikra675suvq9',
