@@ -1,3 +1,4 @@
+export * from './application/application.service';
 export * from './authentication/authentication.service';
 export * from './guards/auth.guard';
 export * from './interceptors/auth.interceptor';

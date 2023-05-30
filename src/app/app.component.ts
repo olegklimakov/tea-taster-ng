@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { SplashScreen } from '@capacitor/splash-screen';
-import { IonicModule, NavController } from '@ionic/angular';
-import { SessionVaultService } from './core';
+import { IonicModule, NavController, Platform } from '@ionic/angular';
+import { ApplicationService, SessionVaultService } from './core';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,12 @@ import { SessionVaultService } from './core';
   imports: [CommonModule, IonicModule],
 })
 export class AppComponent implements OnInit {
-  constructor(private navController: NavController, private sessionVault: SessionVaultService) {
+  constructor(
+    private application: ApplicationService,
+    private platform: Platform,
+    private sessionVault: SessionVaultService,
+    navController: NavController
+  ) {
     sessionVault.locked.subscribe((locked) => {
       if (locked) navController.navigateRoot('/start');
     });
@@ -27,5 +32,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     SplashScreen.hide();
+    if (!this.platform.is('hybrid')) {
+      this.application.registerForUpdates();
+    }
   }
 }
