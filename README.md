@@ -30,6 +30,7 @@ The HEAD of `main` contains the original Tea Taster app developed during trainin
 
 - Ongoing dependency updates (remember to include dependency updates in your own sprint planning at least a couple of times per year).
 - Using Identity Vault and Auth Connect to provide a complete and secure authentication solution.
+- Using the [Angular PWA Toolkit](https://angular.io/guide/service-worker-intro) to implement a PWA.
 - Ongoing bug fixes or minor training related modifications.
 
 The HEAD of `main` should be useful for most exploration, assuming you have access to Identity Vault and Auth Connect.
@@ -46,6 +47,7 @@ Specific key commits are tagged in case you would like to examine the state of t
 - `end-basic-extra-credit` - This commit incorporates all of the extra credit assignments. Each assignment, though, has its own commit(s).
 - `identity-vault` - This commit replaces the basic session storage with Identity Vault.
 - `auth-connect` - In addition to using Identity Vault for session storage, this commit replaces the basic authentication scheme with using OIDC via Auth Connect for better security.
+- `pwa` - The final step of a simple PWA implementation.
 
 ### Branching Refresher
 
