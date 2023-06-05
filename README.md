@@ -49,6 +49,13 @@ Specific key commits are tagged in case you would like to examine the state of t
 - `auth-connect` - In addition to using Identity Vault for session storage, this commit replaces the basic authentication scheme with using OIDC via Auth Connect for better security.
 - `pwa` - The final step of a simple PWA implementation.
 
+### PWA Quirks
+
+The PWA implementation has a couple of quirks that _could_ be solved in a few different ways. This is beyond the scope of this demo, but would be quite easy to accomplish depending on how you want to handle them.
+
+- **Session Storage**: The web implementation is currently using the [Browser Vault](https://ionic.io/docs/identity-vault/classes/browservault), which uses session storage. The result is the user needs to "log in" each time they restart the app. The user may still be logged in via AWS Cognito, which means they will not need to enter any credentials, but they still need to go through the process. The easiest adaptation here is to create your own web-based session storage service that uses the same interface as the Browser Vault.
+- **Safari Popup Warning**: Safari warns about opening a pop-up window. This is because Auth Connect is using a separate tab for login. You can implement the "current" [`uiMode`](https://ionic.io/docs/auth-connect/interfaces/WebOptions#uimode) if desired. This is an advanced option that requires special handling for the application startup code, and is beyond te scope of this demo.
+
 ### Branching Refresher
 
 As a reminder, you can create a branch at any commit or tag as such:
