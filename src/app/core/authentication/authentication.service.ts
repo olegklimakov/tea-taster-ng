@@ -22,7 +22,7 @@ export class AuthenticationService {
       ? 'msauth://auth-action-complete'
       : isDevMode()
       ? 'http://localhost:8100/auth-action-complete'
-      : 'https://tea-taster-training.web.app/auth-action-complete';
+      : 'https://tea-taster-ng.web.app/auth-action-complete';
 
     this.authOptions = {
       clientId: '64p9c53l5thd5dikra675suvq9',
