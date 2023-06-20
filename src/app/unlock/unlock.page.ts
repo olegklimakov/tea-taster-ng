@@ -21,9 +21,9 @@ export class UnlockPage {
     } catch (err) {}
   }
 
-  redoClicked() {
-    this.session.clear();
-    this.session.setUnlockMode('SecureStorage');
+  async redoClicked() {
+    await this.session.clear();
+    await this.session.setUnlockMode('SecureStorage');
     this.navController.navigateRoot('/tabs/tea');
   }
 }
