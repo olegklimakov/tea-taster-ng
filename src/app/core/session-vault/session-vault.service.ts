@@ -174,7 +174,7 @@ export class SessionVaultService {
     }
 
     await this.vault.updateConfig({
-      ...this.vault.config,
+      ...(this.vault.config as IdentityVaultConfig),
       type,
       deviceSecurityType,
     });

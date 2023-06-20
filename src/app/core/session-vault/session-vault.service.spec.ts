@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { PinDialogComponent } from '@app/pin-dialog/pin-dialog.component';
-import { DeviceSecurityType, Vault, VaultType } from '@ionic-enterprise/identity-vault';
+import { DeviceSecurityType, IdentityVaultConfig, Vault, VaultType } from '@ionic-enterprise/identity-vault';
 import { ModalController, Platform } from '@ionic/angular';
 import { createOverlayControllerMock, createOverlayElementMock, createPlatformMock } from '@test/mocks';
 import { SessionVaultService, UnlockMode } from './session-vault.service';
@@ -85,7 +85,7 @@ describe('SessionVaultService', () => {
     ].forEach(({ unlockMode, type, deviceSecurityType }) =>
       it(`updates the configuration for ${unlockMode}`, async () => {
         const expectedConfig = {
-          ...mockVault.config,
+          ...(mockVault.config as IdentityVaultConfig),
           type,
           deviceSecurityType,
         };
