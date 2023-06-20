@@ -3,8 +3,8 @@ import { provideRouter } from '@angular/router';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Platform } from '@ionic/angular';
 import { AppComponent } from './app.component';
-import { ApplicationService } from './core';
-import { createApplicationServiceMock } from './core/testing';
+import { ApplicationService, SessionVaultService } from './core';
+import { createApplicationServiceMock, createSessionVaultServiceMock } from './core/testing';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -13,6 +13,7 @@ describe('AppComponent', () => {
       providers: [provideRouter([])],
     })
       .overrideProvider(ApplicationService, { useFactory: createApplicationServiceMock })
+      .overrideProvider(SessionVaultService, { useFactory: createSessionVaultServiceMock })
       .compileComponents();
   });
 

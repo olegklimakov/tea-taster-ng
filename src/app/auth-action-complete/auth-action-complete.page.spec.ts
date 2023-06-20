@@ -5,11 +5,11 @@ describe('AuthActionCompletePage', () => {
   let component: AuthActionCompletePage;
   let fixture: ComponentFixture<AuthActionCompletePage>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     fixture = TestBed.createComponent(AuthActionCompletePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
