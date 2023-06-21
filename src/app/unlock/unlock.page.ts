@@ -23,7 +23,6 @@ export class UnlockPage {
 
   async redoClicked() {
     await this.session.clear();
-    await this.session.setUnlockMode('SecureStorage');
     this.navController.navigateRoot('/login');
   }
 }
