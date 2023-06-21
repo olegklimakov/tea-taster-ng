@@ -70,11 +70,12 @@ export class AuthenticationService {
 
   public async logout(): Promise<void> {
     await this.initialize();
-    const authResult = await this.getAuthResult();
-    if (authResult) {
-      await AuthConnect.logout(this.provider, authResult);
-      await this.saveAuthResult(null);
+    let authResult = await this.getAuthResult();
+    if (!authResult) {
+      authResult = await AuthConnect.buildAuthResult(this.provider, this.authOptions, {});
     }
+    await AuthConnect.logout(this.provider, authResult);
+    await this.saveAuthResult(null);
   }
 
   private async onAuthChange(isAuthenticated: boolean): Promise<void> {

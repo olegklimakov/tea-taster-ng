@@ -25,8 +25,9 @@ describe('AuthenticationService', () => {
 
   beforeEach(() => {
     spyOn(AuthConnect, 'login').and.returnValue(Promise.resolve(testAuthResult));
-    spyOn(AuthConnect, 'logout').and.returnValue(Promise.resolve());
+    spyOn(AuthConnect, 'logout').and.callFake(() => Promise.resolve());
     spyOn(AuthConnect, 'setup').and.returnValue(Promise.resolve());
+    spyOn(AuthConnect, 'buildAuthResult').and.callFake(() => Promise.resolve({ name: 'generatedAuthResult' } as any));
     modal = createOverlayElementMock('Modal');
     TestBed.configureTestingModule({
       providers: [
@@ -312,9 +313,18 @@ describe('AuthenticationService', () => {
         (sessionVault.getSession as jasmine.Spy).and.returnValue(undefined);
       });
 
-      it('does not call logout ', async () => {
+      it('builds an auth result', async () => {
         await authService.logout();
-        expect(AuthConnect.logout).not.toHaveBeenCalled();
+        expect(AuthConnect.buildAuthResult).toHaveBeenCalledTimes(1);
+        expect(AuthConnect.buildAuthResult).toHaveBeenCalledWith(jasmine.any(CognitoProvider), jasmine.any(Object), {});
+      });
+
+      it('calls logout ', async () => {
+        await authService.logout();
+        expect(AuthConnect.logout).toHaveBeenCalledTimes(1);
+        expect(AuthConnect.logout).toHaveBeenCalledWith(jasmine.any(CognitoProvider), {
+          name: 'generatedAuthResult',
+        } as any);
       });
     });
 
@@ -322,6 +332,11 @@ describe('AuthenticationService', () => {
       beforeEach(() => {
         (sessionVault.getSession as jasmine.Spy).and.returnValue(testAuthResult);
         spyOn(AuthConnect, 'isAccessTokenExpired').and.returnValue(Promise.resolve(false));
+      });
+
+      it('does not builds a auth result', async () => {
+        await authService.logout();
+        expect(AuthConnect.buildAuthResult).not.toHaveBeenCalled();
       });
 
       it('calls logout ', async () => {

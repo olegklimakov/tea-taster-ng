@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SessionVaultService } from '@app/core';
+import { AuthenticationService, SessionVaultService } from '@app/core';
 import { IonicModule, NavController, Platform } from '@ionic/angular';
 
 @Component({
@@ -12,7 +12,11 @@ import { IonicModule, NavController, Platform } from '@ionic/angular';
   imports: [CommonModule, IonicModule, ReactiveFormsModule],
 })
 export class UnlockPage {
-  constructor(private navController: NavController, private platform: Platform, private session: SessionVaultService) {}
+  constructor(
+    private navController: NavController,
+    private auth: AuthenticationService,
+    private session: SessionVaultService
+  ) {}
 
   async unlockClicked() {
     try {
@@ -23,6 +27,7 @@ export class UnlockPage {
 
   async redoClicked() {
     await this.session.clear();
+    await this.auth.logout();
     this.navController.navigateRoot('/login');
   }
 }
