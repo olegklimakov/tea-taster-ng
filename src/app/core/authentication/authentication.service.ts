@@ -35,7 +35,6 @@ export class AuthenticationService {
 
     this.initialize();
     this.authenticationChange$ = this.authenticationChange.asObservable();
-    this.isAuthenticated().then((authenticated) => this.onAuthChange(authenticated));
   }
 
   private setup(): Promise<void> {

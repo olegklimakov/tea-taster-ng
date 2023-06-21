@@ -111,7 +111,7 @@ describe('AuthenticationService', () => {
           it('attempts a refresh', async () => {
             spyOn(AuthConnect, 'refreshSession').and.returnValue(Promise.resolve(refreshedAuthResult));
             await authService.isAuthenticated();
-            expect(AuthConnect.refreshSession).toHaveBeenCalledTimes(2);
+            expect(AuthConnect.refreshSession).toHaveBeenCalledTimes(1);
             expect(AuthConnect.refreshSession).toHaveBeenCalledWith(jasmine.any(CognitoProvider), testAuthResult);
           });
 
@@ -122,7 +122,7 @@ describe('AuthenticationService', () => {
 
             it('saves the new auth result', async () => {
               await authService.isAuthenticated();
-              expect(sessionVault.setSession).toHaveBeenCalledTimes(2);
+              expect(sessionVault.setSession).toHaveBeenCalledTimes(1);
               expect(sessionVault.setSession).toHaveBeenCalledWith(refreshedAuthResult);
             });
 
@@ -138,7 +138,7 @@ describe('AuthenticationService', () => {
 
             it('clears the vault', async () => {
               await authService.isAuthenticated();
-              expect(sessionVault.clear).toHaveBeenCalledTimes(4);
+              expect(sessionVault.clear).toHaveBeenCalledTimes(2);
             });
 
             it('resolves false', async () => {
@@ -160,7 +160,7 @@ describe('AuthenticationService', () => {
 
           it('clears the vault', async () => {
             await authService.isAuthenticated();
-            expect(sessionVault.clear).toHaveBeenCalledTimes(2);
+            expect(sessionVault.clear).toHaveBeenCalledTimes(1);
           });
 
           it('resolves false', async () => {
@@ -216,7 +216,7 @@ describe('AuthenticationService', () => {
           it('attempts a refresh', async () => {
             spyOn(AuthConnect, 'refreshSession').and.returnValue(Promise.resolve(refreshedAuthResult));
             await authService.getAccessToken();
-            expect(AuthConnect.refreshSession).toHaveBeenCalledTimes(2);
+            expect(AuthConnect.refreshSession).toHaveBeenCalledTimes(1);
             expect(AuthConnect.refreshSession).toHaveBeenCalledWith(jasmine.any(CognitoProvider), testAuthResult);
           });
 
@@ -227,7 +227,7 @@ describe('AuthenticationService', () => {
 
             it('saves the new auth result', async () => {
               await authService.getAccessToken();
-              expect(sessionVault.setSession).toHaveBeenCalledTimes(2);
+              expect(sessionVault.setSession).toHaveBeenCalledTimes(1);
               expect(sessionVault.setSession).toHaveBeenCalledWith(refreshedAuthResult);
             });
 
@@ -243,7 +243,7 @@ describe('AuthenticationService', () => {
 
             it('clears the vault', async () => {
               await authService.getAccessToken();
-              expect(sessionVault.clear).toHaveBeenCalledTimes(4);
+              expect(sessionVault.clear).toHaveBeenCalledTimes(2);
             });
 
             it('resolves undefined', async () => {
@@ -265,7 +265,7 @@ describe('AuthenticationService', () => {
 
           it('clears the vault', async () => {
             await authService.getAccessToken();
-            expect(sessionVault.clear).toHaveBeenCalledTimes(2);
+            expect(sessionVault.clear).toHaveBeenCalledTimes(1);
           });
 
           it('resolves undefined', async () => {
@@ -305,7 +305,7 @@ describe('AuthenticationService', () => {
       spyOn(AuthConnect, 'isAccessTokenExpired').and.returnValue(Promise.resolve(false));
 
       await authService.logout();
-      expect(sessionVault.getSession).toHaveBeenCalledTimes(2);
+      expect(sessionVault.getSession).toHaveBeenCalledTimes(1);
     });
 
     describe('if there is no auth result', () => {
