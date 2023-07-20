@@ -52,7 +52,7 @@ describe('TastingNoteEditorComponent', () => {
           description: 'Yellow tea description.',
           rating: 3,
         },
-      ])
+      ]),
     );
   }));
 

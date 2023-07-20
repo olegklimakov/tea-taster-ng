@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
     private application: ApplicationService,
     private platform: Platform,
     private sessionVault: SessionVaultService,
-    navController: NavController
+    navController: NavController,
   ) {
     sessionVault.locked.subscribe((locked) => {
       if (locked) navController.navigateRoot('/start');

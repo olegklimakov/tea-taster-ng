@@ -45,7 +45,11 @@ export class SessionVaultService {
   private vault: Vault | BrowserVault;
   private platform: string;
 
-  constructor(private modalController: ModalController, private ngZone: NgZone, vaultFactory: VaultFactoryService) {
+  constructor(
+    private modalController: ModalController,
+    private ngZone: NgZone,
+    vaultFactory: VaultFactoryService,
+  ) {
     this.platform = Capacitor.getPlatform();
     this.vault = vaultFactory.create(config);
     this.lockedSubject = new Subject();
@@ -59,7 +63,7 @@ export class SessionVaultService {
     });
 
     this.vault.onPasscodeRequested(async (isPasscodeSetRequest: boolean) =>
-      this.onPasscodeRequest(isPasscodeSetRequest)
+      this.onPasscodeRequest(isPasscodeSetRequest),
     );
   }
 

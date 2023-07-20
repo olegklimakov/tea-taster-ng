@@ -49,7 +49,7 @@ export class TastingNoteEditorComponent implements OnInit {
     private modalController: ModalController,
     private platform: Platform,
     private tastingNotes: TastingNotesService,
-    private tea: TeaService
+    private tea: TeaService,
   ) {}
 
   close() {

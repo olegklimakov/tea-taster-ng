@@ -15,7 +15,7 @@ export class UnlockPage {
   constructor(
     private navController: NavController,
     private auth: AuthenticationService,
-    private session: SessionVaultService
+    private session: SessionVaultService,
   ) {}
 
   async unlockClicked() {

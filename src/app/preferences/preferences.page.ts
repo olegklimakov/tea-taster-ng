@@ -25,7 +25,7 @@ export class PreferencesPage implements OnInit {
     private auth: AuthenticationService,
     private modalController: ModalController,
     private navController: NavController,
-    private session: SessionVaultService
+    private session: SessionVaultService,
   ) {}
 
   ngOnInit() {

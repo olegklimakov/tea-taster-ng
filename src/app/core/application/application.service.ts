@@ -7,7 +7,10 @@ import { filter } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ApplicationService {
-  constructor(private alertController: AlertController, private update: SwUpdate) {}
+  constructor(
+    private alertController: AlertController,
+    private update: SwUpdate,
+  ) {}
 
   registerForUpdates() {
     this.update.versionUpdates.pipe(filter((evt) => evt.type === 'VERSION_READY')).subscribe(() => this.promptUser());

@@ -16,7 +16,10 @@ import { map, Observable, of } from 'rxjs';
 export class TeaPage implements OnInit {
   teaMatrix$: Observable<Array<Array<Tea>>> = of([]);
 
-  constructor(private nav: NavController, private tea: TeaService) {}
+  constructor(
+    private nav: NavController,
+    private tea: TeaService,
+  ) {}
 
   ngOnInit() {
     this.teaMatrix$ = this.tea.getAll().pipe(map((teas) => this.toMatrix(teas)));

@@ -13,7 +13,10 @@ import { IonicModule, NavController } from '@ionic/angular';
 export class LoginPage {
   loginFailed: boolean = false;
 
-  constructor(private auth: AuthenticationService, private nav: NavController) {}
+  constructor(
+    private auth: AuthenticationService,
+    private nav: NavController,
+  ) {}
 
   async signIn() {
     try {

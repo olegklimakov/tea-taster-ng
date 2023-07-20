@@ -19,7 +19,10 @@ export class TeaDetailsPage implements OnInit {
   tea$: Observable<Tea> = EMPTY;
   rating: number = 0;
 
-  constructor(private route: ActivatedRoute, private tea: TeaService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private tea: TeaService,
+  ) {}
 
   ngOnInit() {
     const id = parseInt(this.route.snapshot.paramMap.get('id') as string, 10);

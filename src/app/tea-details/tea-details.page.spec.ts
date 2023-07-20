@@ -41,7 +41,7 @@ describe('TeaDetailsPage', () => {
           description: 'Often looks like frosty silver pine needles',
           image: 'imgs/white.png',
           rating: 4,
-        })
+        }),
       );
     });
 

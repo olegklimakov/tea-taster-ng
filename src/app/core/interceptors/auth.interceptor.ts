@@ -20,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
               });
             }
           })
-        : Promise.resolve()
+        : Promise.resolve(),
     ).pipe(mergeMap(() => next.handle(request)));
   }
 

@@ -6,7 +6,10 @@ import { NavController } from '@ionic/angular';
 
 @Injectable()
 export class UnauthInterceptor implements HttpInterceptor {
-  constructor(private navController: NavController, private sessionVault: SessionVaultService) {}
+  constructor(
+    private navController: NavController,
+    private sessionVault: SessionVaultService,
+  ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
@@ -17,8 +20,8 @@ export class UnauthInterceptor implements HttpInterceptor {
             await this.sessionVault.clear();
             this.navController.navigateRoot(['/', 'login']);
           }
-        }
-      )
+        },
+      ),
     );
   }
 }

@@ -22,7 +22,7 @@ export class TastingNotesService {
   save(note: TastingNote): Observable<TastingNote> {
     return this.http.post<TastingNote>(
       `${environment.dataService}/user-tasting-notes${note.id ? '/' + note.id : ''}`,
-      note
+      note,
     );
   }
 }

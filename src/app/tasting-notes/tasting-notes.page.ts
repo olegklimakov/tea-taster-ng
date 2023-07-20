@@ -23,7 +23,7 @@ export class TastingNotesPage implements OnInit {
     private alertController: AlertController,
     private modalController: ModalController,
     private routerOutlet: IonRouterOutlet,
-    private tastingNotes: TastingNotesService
+    private tastingNotes: TastingNotesService,
   ) {}
 
   ngOnInit() {

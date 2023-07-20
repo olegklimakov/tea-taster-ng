@@ -16,7 +16,11 @@ export class AuthenticationService {
   private authenticationChange: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public authenticationChange$: Observable<boolean>;
 
-  constructor(private ngZone: NgZone, private platform: Platform, private sessionVault: SessionVaultService) {
+  constructor(
+    private ngZone: NgZone,
+    private platform: Platform,
+    private sessionVault: SessionVaultService,
+  ) {
     this.isNative = platform.is('hybrid');
     const url = this.isNative
       ? 'msauth://auth-action-complete'

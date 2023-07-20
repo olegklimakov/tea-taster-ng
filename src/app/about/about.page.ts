@@ -20,7 +20,7 @@ export class AboutPage {
   constructor(
     private auth: AuthenticationService,
     private modalController: ModalController,
-    private nav: NavController
+    private nav: NavController,
   ) {
     this.author = packageInfo.author;
     this.name = packageInfo.name;

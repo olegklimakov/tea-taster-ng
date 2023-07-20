@@ -29,7 +29,7 @@ describe('SessionVaultService', () => {
     });
     (mockVault.onLock as jasmine.Spy).and.callFake((callback: () => void) => (onLockCallback = callback));
     (mockVault.onPasscodeRequested as jasmine.Spy).and.callFake(
-      (callback: (flag: boolean) => Promise<void>) => (onPassocodeRequestedCallback = callback)
+      (callback: (flag: boolean) => Promise<void>) => (onPassocodeRequestedCallback = callback),
     );
     (mockVault.lock as jasmine.Spy).and.callFake(() => onLockCallback());
     modal = createOverlayElementMock('Modal');
@@ -92,7 +92,7 @@ describe('SessionVaultService', () => {
         await service.setUnlockMode(unlockMode as UnlockMode);
         expect(mockVault.updateConfig).toHaveBeenCalledTimes(1);
         expect(mockVault.updateConfig).toHaveBeenCalledWith(expectedConfig);
-      })
+      }),
     );
   });
 
@@ -113,7 +113,7 @@ describe('SessionVaultService', () => {
         (mockVault.isEmpty as jasmine.Spy).and.returnValue(Promise.resolve(empty));
         (mockVault.isLocked as jasmine.Spy).and.returnValue(Promise.resolve(locked));
         expect(await service.canUnlock()).toBe(!empty && locked);
-      })
+      }),
     );
   });
 
@@ -122,7 +122,7 @@ describe('SessionVaultService', () => {
       it('passes through to the vault', async () => {
         (mockVault.isLocked as jasmine.Spy).and.returnValue(Promise.resolve(value));
         expect(await mockVault.isLocked()).toEqual(value);
-      })
+      }),
     );
   });
 
