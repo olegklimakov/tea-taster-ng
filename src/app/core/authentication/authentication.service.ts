@@ -23,7 +23,7 @@ export class AuthenticationService {
   ) {
     this.isNative = platform.is('hybrid');
     const url = this.isNative
-      ? 'msauth://auth-action-complete'
+      ? 'io.ionic.teataster://auth-action-complete'
       : isDevMode()
       ? 'http://localhost:8100/auth-action-complete'
       : 'https://tea-taster-ng.web.app/auth-action-complete';

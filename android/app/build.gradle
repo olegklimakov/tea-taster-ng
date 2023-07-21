@@ -17,7 +17,7 @@ android {
         }
 
         manifestPlaceholders = [
-            'AUTH_URL_SCHEME': 'msauth'
+            'AUTH_URL_SCHEME': 'io.ionic.teataster'
         ]
     }
     buildTypes {
