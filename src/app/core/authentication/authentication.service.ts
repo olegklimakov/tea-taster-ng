@@ -18,8 +18,8 @@ export class AuthenticationService {
 
   constructor(
     private ngZone: NgZone,
-    private platform: Platform,
     private sessionVault: SessionVaultService,
+    platform: Platform,
   ) {
     this.isNative = platform.is('hybrid');
     const url = this.isNative
