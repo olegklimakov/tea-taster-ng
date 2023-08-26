@@ -24,12 +24,11 @@ export type UnlockMode =
   | 'SecureStorage';
 
 const config: IdentityVaultConfig = {
-  key: 'com.ionic.teataster',
-  type: VaultType.SecureStorage,
-  deviceSecurityType: DeviceSecurityType.None,
-  lockAfterBackgrounded: 2000,
-  shouldClearVaultAfterTooManyFailedAttempts: true,
-  customPasscodeInvalidUnlockAttempts: 2,
+  key: 'com.ionic.teataster_1',
+  type: VaultType.DeviceSecurity,
+  deviceSecurityType: DeviceSecurityType.Both,
+  customPasscodeInvalidUnlockAttempts: 3,
+  lockAfterBackgrounded: 15000,
   unlockVaultOnLoad: false,
 };
 
